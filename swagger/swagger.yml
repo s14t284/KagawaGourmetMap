@@ -6,7 +6,7 @@ info:
 servers:
   - url: http://swagger-api:4010/
     description: "Mock Server"
-  - url: http://localhost:3922/
+  - url: http://backend:3922/
     description: "Development Server"
 paths:
   /shop:
