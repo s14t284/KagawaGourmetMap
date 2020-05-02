@@ -15,12 +15,12 @@ paths:
       parameters:
       - name: "status"
         in: "query"
-        description: "shop object that needs to be added to the store"
+        description: "get shops"
         required: false
         type: "string"
       responses:
         200:
-          description: "successful extract all shop"
+          description: "successful extract shops"
           schema:
             type: "array"
             items:
@@ -31,18 +31,18 @@ paths:
       tags:
       - "shop"
       summary: "extract a shop by shopid"
-      description: "return shop limited by shopid"
+      description: "return shop by shopid"
       produces:
       - "application/json"
       parameters:
       - name: shopId
         in: path
-        description: "shop object that needs to be added to the store"
+        description: "the shop id associated with the shop"
         required: true
         type: "string"
       responses:
         200:
-          description: "successful extract all shop"
+          description: "successful extract a shop"
           schema:
             $ref: "#/definitions/Shop"
     patch:
@@ -55,31 +55,31 @@ paths:
       parameters:
       - name: shopId
         in: path
-        description: "shop object that needs to be added to the store"
+        description: "the shop id associated with the shop"
         required: true
         type: "string"
       - name: "shop"
         in: "body"
         description: ""
-        required: false
+        required: true
         schema:
           $ref: "#/definitions/Shop"
       responses:
         200:
-          description: "successful extract all shop"
+          description: "successful patch the shop"
 
   /shop/{shopId}/review:
     post:
       tags:
       - "shop"
-      summary: "Add a new shop info"
+      summary: "Add a new review for the shop"
       description: ""
       produces:
       - "application/json"
       parameters:
       - name: shopId
         in: path
-        description: "shop object that needs to be added to the store"
+        description: "the shop id associated with the shop"
         required: true
         type: "string"
       - name: "review"
