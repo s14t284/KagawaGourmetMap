@@ -1,0 +1,63 @@
+version: "3"
+services:
+
+  backend:
+    build: ./docker/backend/
+    command: fresh
+    volumes:
+      - ./backend:/app
+    working_dir: /app
+    ports:
+      - "3922:3922"
+    depends_on:
+      - db
+    networks:
+      - kagawa-gourmet-map-net
+
+  frontend:
+    build: ./docker/frontend/
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./frontend:/app
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    networks:
+      - kagawa-gourmet-map-net
+
+  db:
+    build: ./docker/db/
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: app-user
+      POSTGRES_PASSWORD: Passw0rd
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    environment:
+      - API_URL=swagger.yml
+    volumes:
+      - ./swagger/swagger.yml:/usr/share/nginx/html/swagger.yml
+    ports:
+      - "8080:8080"
+    depends_on:
+      - swagger-api
+    networks:
+      - kagawa-gourmet-map-net
+
+  swagger-api:
+    image: stoplight/prism:3
+    command: mock -h 0.0.0.0 /swagger.yml
+    volumes:
+      - ./swagger/swagger.yml:/swagger.yml
+    ports:
+      - "4010:4010"
+    networks:
+      - kagawa-gourmet-map-net
+
+networks:
+  kagawa-gourmet-map-net:
+    driver: bridge
