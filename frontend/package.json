@@ -1,5 +1,5 @@
 {
-  "name": "KagawaGroumetMap-front",
+  "name": "kagawa-groumet-map-front",
   "version": "1.0.0",
   "description": "",
   "main": "config/webpack.config.js",

@@ -1,8 +1,13 @@
-swagger: "2.0"
+openapi: 3.0.0
 info:
   description: "API"
   version: "1.0.0"
   title: "KagawaGourmetMap"
+servers:
+  - url: http://swagger-api:4010/
+    description: "Mock Server"
+  - url: http://localhost:3922/
+    description: "Development Server"
 paths:
   /shop:
     get:
@@ -25,7 +30,7 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Shop"
-  
+
   /shop/{shopId}:
     get:
       tags:
@@ -93,7 +98,7 @@ paths:
           description: "successful input"
         405:
           description: "Invalid input"
-            
+
 
 definitions:
   Shop:
