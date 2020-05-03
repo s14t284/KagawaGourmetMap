@@ -127,7 +127,7 @@ tmp/
 temp/
 
 # postgres files
-docker/db/data/!.gitignore
+docker/db/data/
 
 ### react ###
 .DS_*
