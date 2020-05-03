@@ -30,34 +30,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/Shops'
-              example:
-                application/json:
-                  - shopId: 2
-                    name: かにわしタルト
-                    times:
-                      - day: 日曜日
-                        startTime: '2020-01-01T10:00:00Z'
-                        endTime: '2020-01-01T19:00:00Z'
-                      - day: 月曜日
-                        startTime: '2020-01-01T10:00:00Z'
-                        endTime: '2020-01-01T19:00:00Z'
-                    point: 4.5
-                    geocode:
-                      lat: 34.317839
-                      lng: 134.05451
-                  - shopId: 1
-                    name: ルーヴ
-                    times:
-                      - day: 日曜日
-                        startTime: '2020-01-01T09:30:00Z'
-                        endTime: '2020-01-01T18:30:00Z'
-                      - day: 月曜日
-                        startTime: '2017-07-21T9:30:00Z'
-                        endTime: '2017-07-21T19:00:00Z'
-                    point: 5
-                    geocode:
-                      lat: 34.327811
-                      lng: 134.07525
+              examples:
+                cakeshops:
+                  summary: An example of shops
+                  value:
+                    - shopId: 2
+                      name: かにわしタルト
+                      times:
+                        - day: 日曜日
+                          startTime: '10:00'
+                          endTime: '18:30'
+                        - day: 月曜日
+                          startTime: '10:00'
+                          endTime: '19:00'
+                      point: 4.5
+                      geocode:
+                        lat: 34.317839
+                        lng: 134.05451
+                    - shopId: 1
+                      name: ルーヴ
+                      times:
+                        - day: 日曜日
+                          startTime: '10:00'
+                          endTime: '19:00'
+                        - day: 月曜日
+                          startTime: '10:00'
+                          endTime: '19:00'
+                      point: 5
+                      geocode:
+                        lat: 34.327811
+                        lng: 134.07525
       operationId: getShops
   '/shop/{id}':
     get:
@@ -80,21 +82,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/Shop'
-      examples:
-        '1':
-          shopId: 1
-          name: ルーヴ
-          times:
-            - day: 日曜日
-              startTime: '2020-01-01T09:30:00Z'
-              endTime: '2020-01-01T18:30:00Z'
-            - day: 月曜日
-              startTime: '2017-07-21T9:30:00Z'
-              endTime: '2017-07-21T19:00:00Z'
-          point: 5
-          geocode:
-            lat: 34.327811
-            lng: 134.07525
+              examples:
+                cakeshop:
+                  summary: An example of a shop
+                  value:
+                    shopId: 1
+                    name: ルーヴ
+                    times:
+                      - day: 日曜日
+                        startTime: '10:00'
+                        endTime: '19:00'
+                      - day: 月曜日
+                        startTime: '10:00'
+                        endTime: '19:00'
+                    point: 5
+                    geocode:
+                      lat: 34.327811
+                      lng: 134.07525
       operationId: getShopById
     patch:
       tags:
@@ -116,7 +120,7 @@ paths:
           schema:
             $ref: '#/definitions/Shop'
       operationId: patchShop
-  '/shop/{shopId}/review':
+  '/shop/{id}/review':
     post:
       tags:
         - shop
@@ -125,7 +129,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: shopId
+        - name: id
           in: path
           description: the shop id associated with the shop
           required: true
@@ -135,7 +139,7 @@ paths:
           description: ''
           required: true
           schema:
-            $ref: '#/definitions/Reviews'
+            $ref: '#/definitions/Review'
       responses:
         '200':
           description: OK
@@ -151,7 +155,7 @@ definitions:
         example: 1
       name:
         type: string
-        example: ルーヴ
+        example: "ルーヴ"
       times:
         type: array
         items:
@@ -166,6 +170,20 @@ definitions:
     type: array
     items:
       $ref: '#/definitions/Shop'
+    example:
+      shopId: 1
+      name: ルーヴ
+      times:
+        - day: 日曜日
+          startTime: '10:00'
+          endTime: '19:00'
+        - day: 月曜日
+          startTime: '10:00'
+          endTime: '19:00'
+      point: 5
+      geocode:
+        lat: 34.327811
+        lng: 134.07525
 
   Date:
     type: object
@@ -198,11 +216,11 @@ definitions:
     properties:
       lat:
         type: number
-        format: double
+        format: float
         example: 34.34221
       lng:
         type: number
-        format: double
+        format: float
         example: 134.037109
 
 responses:
