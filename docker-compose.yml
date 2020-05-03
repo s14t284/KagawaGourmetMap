@@ -34,6 +34,10 @@ services:
     environment:
       POSTGRES_USER: app-user
       POSTGRES_PASSWORD: Passw0rd
+      POSTGRES_DB: test1
+    volumes:
+      - ./docker/db/initdb.d:/docker-entrypoint-initdb.d
+      #- ./docker/db/data/:/var/lib/postgresql/data
 
   swagger-ui:
     image: swaggerapi/swagger-ui
