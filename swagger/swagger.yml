@@ -1,152 +1,212 @@
 openapi: 3.0.0
 info:
-  description: "API"
-  version: "1.0.0"
-  title: "KagawaGourmetMap"
+  description: API
+  version: 1.0.0
+  title: KagawaGourmetMap
 servers:
-  - url: http://swagger-api:4010/
-    description: "Mock Server"
-  - url: http://backend:3922/
-    description: "Development Server"
+  - url: 'http://swagger-api:4010/'
+    description: Mock Server
+  - url: 'http://backend:3922/'
+    description: Development Server
 paths:
   /shop:
     get:
       tags:
-      - "shop"
-      summary: "extract shops info"
-      description: "return all shop"
+        - shop
+      summary: extract shops info
+      description: return shops
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: "status"
-        in: "query"
-        description: "get shops"
-        required: false
-        type: "string"
+        - name: query
+          in: query
+          description: the query string for seaching shops
+          required: false
+          type: string
       responses:
-        200:
-          description: "successful extract shops"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Shop"
-
-  /shop/{shopId}:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Shops'
+              example:
+                application/json:
+                  - shopId: 2
+                    name: かにわしタルト
+                    times:
+                      - day: 日曜日
+                        startTime: '2020-01-01T10:00:00Z'
+                        endTime: '2020-01-01T19:00:00Z'
+                      - day: 月曜日
+                        startTime: '2020-01-01T10:00:00Z'
+                        endTime: '2020-01-01T19:00:00Z'
+                    point: 4.5
+                    geocode:
+                      lat: 34.317839
+                      lng: 134.05451
+                  - shopId: 1
+                    name: ルーヴ
+                    times:
+                      - day: 日曜日
+                        startTime: '2020-01-01T09:30:00Z'
+                        endTime: '2020-01-01T18:30:00Z'
+                      - day: 月曜日
+                        startTime: '2017-07-21T9:30:00Z'
+                        endTime: '2017-07-21T19:00:00Z'
+                    point: 5
+                    geocode:
+                      lat: 34.327811
+                      lng: 134.07525
+      operationId: getShops
+  '/shop/{id}':
     get:
       tags:
-      - "shop"
-      summary: "extract a shop by shopid"
-      description: "return shop by shopid"
+        - shop
+      summary: extract a shop by shopid
+      description: return shop by shopid
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: shopId
-        in: path
-        description: "the shop id associated with the shop"
-        required: true
-        type: "string"
+        - name: id
+          in: path
+          description: the shop id associated with the shop
+          required: true
+          type: integer
       responses:
-        200:
-          description: "successful extract a shop"
-          schema:
-            $ref: "#/definitions/Shop"
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Shop'
+      examples:
+        '1':
+          shopId: 1
+          name: ルーヴ
+          times:
+            - day: 日曜日
+              startTime: '2020-01-01T09:30:00Z'
+              endTime: '2020-01-01T18:30:00Z'
+            - day: 月曜日
+              startTime: '2017-07-21T9:30:00Z'
+              endTime: '2017-07-21T19:00:00Z'
+          point: 5
+          geocode:
+            lat: 34.327811
+            lng: 134.07525
+      operationId: getShopById
     patch:
       tags:
-      - "shop"
-      summary: "extract a shop by shopid"
-      description: "return shop"
+        - shop
+      summary: extract a shop by shopid
+      description: patch shop information
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: shopId
-        in: path
-        description: "the shop id associated with the shop"
-        required: true
-        type: "string"
-      - name: "shop"
-        in: "body"
-        description: ""
-        required: true
-        schema:
-          $ref: "#/definitions/Shop"
-      responses:
-        200:
-          description: "successful patch the shop"
-
-  /shop/{shopId}/review:
+        - name: id
+          in: path
+          description: the shop id associated with the shop
+          required: true
+          type: integer
+        - name: shop
+          in: body
+          description: ''
+          required: true
+          schema:
+            $ref: '#/definitions/Shop'
+      operationId: patchShop
+  '/shop/{shopId}/review':
     post:
       tags:
-      - "shop"
-      summary: "Add a new review for the shop"
-      description: ""
+        - shop
+      summary: Add a new review for the shop
+      description: post a review for the shop
       produces:
-      - "application/json"
+        - application/json
       parameters:
-      - name: shopId
-        in: path
-        description: "the shop id associated with the shop"
-        required: true
-        type: "string"
-      - name: "review"
-        in: "body"
-        description: ""
-        required: true
-        schema:
-          $ref: "#/definitions/Reviews"
+        - name: shopId
+          in: path
+          description: the shop id associated with the shop
+          required: true
+          type: integer
+        - name: review
+          in: body
+          description: ''
+          required: true
+          schema:
+            $ref: '#/definitions/Reviews'
       responses:
-        200:
-          description: "successful input"
-        405:
-          description: "Invalid input"
-
-
+        '200':
+          description: OK
+        '405':
+          description: Not Allowed
+      operationId: postReview
 definitions:
   Shop:
-    type: "object"
+    type: object
     properties:
-      id:
-        type: "integer"
-        example: "1"
+      shopId:
+        type: integer
+        example: 1
       name:
-        type: "string"
-        example: "ルーヴ"
+        type: string
+        example: ルーヴ
       times:
-        type: "array"
+        type: array
         items:
-          $ref: "#/definitions/Date"
+          $ref: '#/definitions/Date'
       point:
-        type: "number"
-        example: "1.0"
+        type: number
+        format: float
+        example: 1
       geocode:
-        $ref: "#/definitions/LatLng"
+        $ref: '#/definitions/LatLng'
+  Shops:
+    type: array
+    items:
+      $ref: '#/definitions/Shop'
+
   Date:
-    type: "object"
+    type: object
     properties:
       day:
-        type: "string"
+        type: string
         example: "月曜日"
       startTime:
-        type: "string"
-        format: date-time
-        example: "2017-07-21T13:20:28Z"
+        type: string
+        example: '10:00'
+        pattern: '^(2[0-3]|[01][0-9]):([0-5][0-9])$'
       lastTime:
-        type: "string"
-        format: date-time
-        example: "2017-07-21T17:30:28Z"
-  Reviews:
-    type: "object"
+        type: string
+        example: '19:00'
+        pattern: '^(2[0-3]|[01][0-9]):([0-5][0-9])$'
+  Review:
+    type: object
     properties:
+      reviewId:
+        type: integer
+        example: 1
       impress:
-        type: "string"
-        example: "so dericious"
+        type: string
+        example: so dericious
       eval:
-        type: "integer"
-        example: "5"
+        type: number
+        format: float
+        example: 5
   LatLng:
     properties:
       lat:
-        format: float
         type: number
+        format: double
+        example: 34.34221
       lng:
-        format: float
         type: number
+        format: double
+        example: 134.037109
+
+responses:
+  OK:
+    description: success request
+  UnexpectedError:
+    description: unexpected error
