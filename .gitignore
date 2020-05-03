@@ -126,6 +126,9 @@ dist/
 tmp/
 temp/
 
+# postgres files
+docker/db/data/
+
 ### react ###
 .DS_*
 **/*.backup.*
