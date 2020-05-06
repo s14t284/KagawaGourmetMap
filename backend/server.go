@@ -12,7 +12,7 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, World!")
 	})
-	//e.GET("/shop",handler.GetShops())
+	e.GET("/shop",handler.GetShops())
 	e.GET("/shop/:id",handler.GetShop())
 	e.GET("/test/:id",handler.Gettest())
 
