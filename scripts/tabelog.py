@@ -162,6 +162,7 @@ class Tabelog:
         )
         item_jenre_list = item_table[0].find_all("p")
         openday_list = []
+        restday = ""
         open_flag = False
         rest_flag = False
         for item in item_jenre_list:
@@ -176,8 +177,13 @@ class Tabelog:
             elif item.text in "定休日":
                 rest_flag = True
                 open_flag = False
-        openday_list.pop(-1)
-        self.open_hours = ",".join(openday_list)
+        if len(openday_list) >= 1:
+            openday_list.pop(-1)
+            self.open_hours = ",".join(openday_list)
+        else:
+            self.open_hours = None
+        if restday == "":
+            self.rest_time = rest_day
 
         # ケーキ画像URL取得
         images = soup.find(class_="js-imagebox-trigger")
